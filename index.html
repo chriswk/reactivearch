@@ -42,10 +42,23 @@
 			<div class="slides">
 				<section>
 					<h1>Reactive Java</h1>
-					<h3>Services are streams</h3>
+				</section>
+				<section>
+					<h1>Size of services</h1>
+					<h3>A SomethingService will always need to interact</h3>
 					<p>
-						<small><a href="http://reactivex.io">Reactive Extensions</a></small>
+						<ul>
+							<li>With the user</li>
+							<li>With other services</li>
+						</ul>
 					</p>
+					<p>
+						The boundary between services is the real deal
+					</p>
+				</section>
+				<section>
+					<h1>Latency is the enemy</h1>
+					<h3>Reactive is just a fancy buzzword. The real deal is asynchronous processing and immediate return.</h3>
 				</section>
 				<section>
 					<h1>Observable <-> Iterable</h1>
@@ -62,6 +75,16 @@
 				<section>
 					<h1>Subscriber <-> Iterator</h1>
 
+				</section>
+				<section>
+					<h1>References</h1>
+					<p>
+						<ul>
+							<li><a href="http://www.slideshare.net/StphaneMaldini/spring-one2gx-2014reactivestreams">SpringOne2GX ReactiveStreams</a></li>
+							<li><a href="http://www.infoq.com/presentations/covariance-contravariance-joy-of-coding-2014">Erik Meijer - Contravariance is the dual of Covariance</a></li>
+							<li><a href="https://www.youtube.com/watch?v=_t06LRX0DV0">Ben Christensen - Functional Reactive Programming with RxJava</a></li>
+						</ul>
+					</p>
 				</section>
 			</div>
 
