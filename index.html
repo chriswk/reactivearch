@@ -42,40 +42,128 @@
 			<div class="slides">
 				<section>
 					<h1>Reactive Java</h1>
+					<img src="http://i.imgur.com/hDxfJQi.jpg" />
 				</section>
 				<section>
-					<h1>Size of services</h1>
-					<h3>A SomethingService will always need to interact</h3>
+					<h2>Microservice, NanoService, JustRightService</h2>
+					<img src="http://cdn.meme.am/instances/500x/54363409.jpg" alt="Say microservice one more time. I dare you" />
+				</section>
+				<section>
+				</section>
+				<section>
+					<h2>What is Reactive Programming?</h2>
 					<p>
+						Reactive Programming is
 						<ul>
-							<li>With the user</li>
-							<li>With other services</li>
-						</ul>
-					</p>
-					<p>
-						The boundary between services is the real deal
+							<li>Event-driven</li>
+							<li>Fault-tolerant</li>
+							<li>Scalable</li>
+							<li>Low latency</li>
+					  </ul>
 					</p>
 				</section>
 				<section>
-					<h1>Latency is the enemy</h1>
-					<h3>Reactive is just a fancy buzzword. The real deal is asynchronous processing and immediate return.</h3>
+					<h2>Event-driven</h2>
+					<p></p>
+				</section>
+				<section>
+					<h1>Reactive Extensions (RxJava)</h1>
+				</section>
+				<section>
+					<pre>
+						<code data-trim contenteditable>
+interface Observable&lt;T&gt; {
+	void subscribe(Observer o);
+}
+interface Observer&lt;T&gt; {
+	void onCompleted();
+	void onError(Throwable T);
+	void onNext(T value);
+}
+						</code>
+					</pre>
+
+				</section>
+				<section>
+					<h1>Random number generator</h1>
+					<pre>
+						<code contenteditable>
+import java.util.Random;
+import rx.Observable;
+public class RandomObservable extends Observable&lt;Integer&gt; {
+  public RandomObservable(int upperBound) {
+    super(observer -> {
+      Random random = new Random();
+      while(!observer.isUnsubscribed()) {
+        observer.onNext(random.nextInt(upperBound));
+      }
+      observer.onCompleted();
+    });
+  }
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h1>Usage</h1>
+					<h3>Take 100 random numbers between 0 and 10and print them</h3>
+					<pre>
+						<code>
+new RandomObservable(10).take(100).subscribe(System.out::println);
+						</code>
+					</pre>
 				</section>
 				<section>
 					<h1>Observable <-> Iterable</h1>
 					<pre>
 						<code data-trim contenteditable>
-							List&lt;String&gt; strings = asList("Hello", "world");
-							Observable&lt;String&gt; obsStrings = Observable.from(strings);
+List&lt;String&gt; strings = asList("Hello", "world");
+Observable&lt;String&gt; obsStrings = Observable.from(strings);
 						</code>
 					</pre>
 					<p>
 						An observer is lazily initalized and will not actually do any work until it has at least one subscriber
 					</p>
-				</section>
+					</section>
+					<section>
+						<p>
+							<pre>
+						<code data-trim contenteditable>
+							Observable.create((subscriber) -> {
+//Call subscriber.onNext for each element
+//that should be produced by the Observable
+})
+						</code>
+					</pre>
+						</p>
+					</section>
+					<section>
+						<p>
+							<pre>
+						<code data-trim contenteditable>
+							Observable.interval(500, TimeUnit.MILLISECONDS)
+						</code>
+						</pre>
+						Produces a counter (starting at 0) every 500 milliseconds.
+						</p>
+					</section>
 				<section>
 					<h1>Subscriber <-> Iterator</h1>
 
 				</section>
+				<section>
+					<h2><a href="http://geocoder.chriswk.com">Reactive Geocoder demo</a></h2>
+				</section>
+				<section>
+					<h1>Important links</h1>
+					<p>
+						<ul>
+							<li><a href="http://www.reactivex.io">Reactive Extensions</a></li>
+							<li><a href="https://github.com/Netflix/Hystrix">Hystrix</a></li>
+				</ul>
+					</p>
+				</section>
+
 				<section>
 					<h1>References</h1>
 					<p>
