@@ -63,15 +63,26 @@
 					</p>
 				</section>
 				<section>
+					<h2>Reactive Architecture</h2>
+					<p>
+						A reactive system must be resilient
+						Splitting concerns to achieve error bulk-heading and modularity
+					</p>
+				</section>
+
+				<section>
 					<h2>Event-driven</h2>
 					<p></p>
 				</section>
 				<section>
 					<h1>Reactive Extensions (RxJava)</h1>
+					<p>
+						Producer of API must be responsible for concurrency control
+					</p>
 				</section>
 				<section>
 					<pre>
-						<code data-trim contenteditable>
+						<code class="java" data-trim contenteditable>
 interface Observable&lt;T&gt; {
 	void subscribe(Observer o);
 }
@@ -87,7 +98,7 @@ interface Observer&lt;T&gt; {
 				<section>
 					<h1>Random number generator</h1>
 					<pre>
-						<code contenteditable>
+						<code class="java" contenteditable>
 import java.util.Random;
 import rx.Observable;
 public class RandomObservable extends Observable&lt;Integer&gt; {
@@ -114,9 +125,38 @@ new RandomObservable(10).take(100).subscribe(System.out::println);
 					</pre>
 				</section>
 				<section>
-					<h1>Observable <-> Iterable</h1>
+					<h2>Observable <-> Iterable</h2>
+					<p>An observable is the asynchronous cousin of the synchronous iterable</p>
+					<table>
+						<thead>
+							<tr>
+								<th>Behaviour</th>
+								<th>Iterable&lt;T&gt;</th>
+								<th>Obervable&lt;T&gt;</th>
+							</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td>Get/Produce next element</td>
+							<td><code>T next();</code></td>
+							<td><code>onNext(T);</code></td>
+						</tr>
+						<tr>
+							<td>Handle error</td>
+							<td><code>throws Exception</code></td>
+							<td><code>onError(Throwable);</code></td>
+						</tr>
+						<tr>
+							<td>Complete / no more elements</td>
+							<td><code>!hasNext()</code></td>
+							<td><code>onComplete();</code></td>
+						</tr>
+						</tbody>
+					</table>
+					</section>
+				<section>
 					<pre>
-						<code data-trim contenteditable>
+						<code class="java" data-trim contenteditable>
 List&lt;String&gt; strings = asList("Hello", "world");
 Observable&lt;String&gt; obsStrings = Observable.from(strings);
 						</code>
@@ -128,7 +168,7 @@ Observable&lt;String&gt; obsStrings = Observable.from(strings);
 					<section>
 						<p>
 							<pre>
-						<code data-trim contenteditable>
+						<code class="java" data-trim contenteditable>
 							Observable.create((subscriber) -> {
 //Call subscriber.onNext for each element
 //that should be produced by the Observable
@@ -140,7 +180,7 @@ Observable&lt;String&gt; obsStrings = Observable.from(strings);
 					<section>
 						<p>
 							<pre>
-						<code data-trim contenteditable>
+						<code class="java" data-trim contenteditable>
 							Observable.interval(500, TimeUnit.MILLISECONDS)
 						</code>
 						</pre>
@@ -149,29 +189,95 @@ Observable&lt;String&gt; obsStrings = Observable.from(strings);
 					</section>
 				<section>
 					<h1>Subscriber <-> Iterator</h1>
+					<p>
+						<pre>
+					<code class="java" data-trim>
+						Observable.just(1).subscribe(Func1 onNext, Func1 onError, onComplete)
+					</code>
+						</pre>
+					</p>
+					<p>
 
+					</p>
+				</section>
+				<section>
+					<h1>Async Http Client usage</h1>
+					<p>
+						<pre>
+							<code class="java" data-trim>
+import rx.apache.http.ObservableHttp;
+import rx.Observable;
+import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
+import org.apache.http.impl.nio.client.HttpAsyncClients;
+import org.apache.http.nio.client.methods.HttpAsyncMethods;
+public class AsyncHttpObservable {
+  public static Observable&lt;String&gt; getBody(String url, CloseableHttpAsyncClient client) {
+    return ObservableHttp.createRequest(HttpAsyncMethods.createGet(url), client)
+      .toObservable()
+      .flatMap((response) -> response.getContent().map(String::new));
+  }
+  public static void main(String... args) {
+    CloseableHttpAsyncClient client = HttpAsyncClients.createDefault();
+    client.start();
+    getBody("http://www.wikipedia.com", client).subscribe(System.out::println, System.err::println, System.out.println("Completed call"));
+  }
+}
+							</code>
+				</pre>
+					</p>
+				</section>
+				<section>
+					<h1>Finn usages</h1>
+					<p>
+						<ul>
+							<li>Hjørner</li>
+							<li>Finn kart (Hystrix)</li>
+						</ul>
+					</p>
 				</section>
 				<section>
 					<h2><a href="http://geocoder.chriswk.com">Reactive Geocoder demo</a></h2>
+					<h4><a href="http://geocoder.chriswk.com">http://geocoder.chriswk.com</a></h4>
 				</section>
 				<section>
 					<h1>Important links</h1>
 					<p>
 						<ul>
 							<li><a href="http://www.reactivex.io">Reactive Extensions</a></li>
+							<li><a href="http://reactivestreams.org/">Reactive Streams</a></li>
 							<li><a href="https://github.com/Netflix/Hystrix">Hystrix</a></li>
-				</ul>
+						</ul>
 					</p>
 				</section>
 
 				<section>
 					<h1>References</h1>
 					<p>
-						<ul>
-							<li><a href="http://www.slideshare.net/StphaneMaldini/spring-one2gx-2014reactivestreams">SpringOne2GX ReactiveStreams</a></li>
-							<li><a href="http://www.infoq.com/presentations/covariance-contravariance-joy-of-coding-2014">Erik Meijer - Contravariance is the dual of Covariance</a></li>
-							<li><a href="https://www.youtube.com/watch?v=_t06LRX0DV0">Ben Christensen - Functional Reactive Programming with RxJava</a></li>
-						</ul>
+						<table>
+							<thead>
+								<tr>
+									<th>Talk</th>
+									<th>Slides</th>
+								</tr>
+							</thead>
+					<tbody>
+							<tr>
+								<td></td>
+								<td><a href="http://www.slideshare.net/StphaneMaldini/spring-one2gx-2014reactivestreams">SpringOne2GX ReactiveStreams</a></td>
+								</tr>
+							<tr>
+								<td></td>
+								<td><a href="http://www.slideshare.net/StphaneMaldini/reactor-reactive-streams-and-microservices?related=1">Reactor and Reactive Streams</a></td>
+							</tr>
+							<tr>
+								<td><a href="http://www.infoq.com/presentations/covariance-contravariance-joy-of-coding-2014">Erik Meijer - Contravariance is the dual of Covariance</a></td>
+							</tr>
+							<tr>
+								<td><a href="https://www.youtube.com/watch?v=_t06LRX0DV0">Ben Christensen - Functional Reactive Programming with RxJava</a></td>
+								<td><a href="http://sssslide.com/speakerdeck.com/benjchristensen/rxjava-reactive-extensions-for-scala">rxjava-for-scala</a></td>
+							</tr>
+					</tbody>
+					</table>
 					</p>
 				</section>
 			</div>
@@ -190,7 +296,6 @@ Observable&lt;String&gt; obsStrings = Observable.from(strings);
 				progress: true,
 				history: true,
 				center: true,
-
 				transition: 'slide', // none/fade/slide/convex/concave/zoom
 
 				// Optional reveal.js plugins
