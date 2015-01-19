@@ -42,12 +42,27 @@
 			<div class="slides">
 				<section>
 					<h1>Reactive Java</h1>
-					<h3>Stop thinking of static content</h3>
+					<h3>Services are streams</h3>
 					<p>
 						<small><a href="http://reactivex.io">Reactive Extensions</a></small>
 					</p>
 				</section>
+				<section>
+					<h1>Observable <-> Iterable</h1>
+					<pre>
+						<code data-trim contenteditable>
+							List&lt;String&gt; strings = asList("Hello", "world");
+							Observable&lt;String&gt; obsStrings = Observable.from(strings);
+						</code>
+					</pre>
+					<p>
+						An observer is lazily initalized and will not actually do any work until it has at least one subscriber
+					</p>
+				</section>
+				<section>
+					<h1>Subscriber <-> Iterator</h1>
 
+				</section>
 			</div>
 
 		</div>
