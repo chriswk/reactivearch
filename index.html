@@ -155,12 +155,9 @@ public class RandomObservable extends Observable&lt;Integer&gt; {
 				</section>
 				<section>
 					<h1>Usage</h1>
-					<h3>Take 100 random numbers between 0 and 10and print them</h3>
-					<pre>
-						<code>
-new RandomObservable(10).take(100).subscribe(System.out::println);
-						</code>
-					</pre>
+					<p>Take 100 random numbers between 0 and 10 and print them
+					<pre><code>new RandomObservable(10).take(100).subscribe(System.out::println);</code></pre>
+					</p>
 				</section>
 				<section>
 					<h2>Observable <-> Iterable</h2>
@@ -225,6 +222,10 @@ Observable&lt;String&gt; obsStrings = Observable.from(strings);
 						</code>
 					</pre>
 						</p>
+						<aside class="notes">
+							Mind which thread / scheduler you subscribe on your observer on.
+							Default Observable creators has default schedulers configured. The documentation covers this
+						</aside>
 					</section>
 					<section>
 						<p>
@@ -240,11 +241,11 @@ Observable&lt;String&gt; obsStrings = Observable.from(strings);
 						</aside>
 					</section>
 				<section>
-					<h1>Subscriber <-> Iterator</h1>
+					<h1>Observer <-> Iterator</h1>
 					<p>
 						<pre>
 					<code class="java" data-trim>
-						Observable.just(1).subscribe(Func1 onNext, Func1 onError, onComplete)
+						Observable.just(1)
 					</code>
 						</pre>
 					</p>
