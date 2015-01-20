@@ -49,6 +49,9 @@
 					<img src="http://cdn.meme.am/instances/500x/54363409.jpg" alt="Say microservice one more time. I dare you" />
 				</section>
 				<section>
+					<p>Latency is the enemy</p>
+				</section>
+				<section>
 				</section>
 				<section>
 					<h2>What is Reactive Programming?</h2>
@@ -72,13 +75,50 @@
 
 				<section>
 					<h2>Event-driven</h2>
-					<p></p>
+					<p>"React" to events rather than performing commands</p>
+				</section>
+				<section>
+					<h2>Fault tolerant</h2>
+					<p>Building pages by components allow separating page load from service answers</p>
+				</section>
+				<section>
+					<h2>Scalable</h2>
+					<p>Each component scales separately</p>
+				</section>
+				<section>
+					<h2>Low latency</h2>
 				</section>
 				<section>
 					<h1>Reactive Extensions (RxJava)</h1>
 					<p>
 						Producer of API must be responsible for concurrency control
 					</p>
+				</section>
+				<section>
+					<p>First foray into asynchronous programming</p>
+					<pre>
+						<code class="java" data-trim>
+							Future&lt;String&gt; username = getUsername(email);
+username.get();
+						</code>
+					</pre>
+					<aside class="notes">
+						Immediately blocks.
+					</aside>
+				</section>
+				<section>
+					<h2>To paraphrase netflix</h2>
+					<p>Move from
+					<table>
+					<tr>
+						<td><code>
+							public AdDetails getAdDetails()
+						</code></td>
+						<td><code>
+							public Observable&lt;AdDetails&gt; getAdDetails()
+						</code></td>
+					</tr>
+				</table></p>
 				</section>
 				<section>
 					<pre>
@@ -95,7 +135,7 @@ interface Observer&lt;T&gt; {
 					</pre>
 
 				</section>
-				<section>
+				<section id="random">
 					<h1>Random number generator</h1>
 					<pre>
 						<code class="java" contenteditable>
@@ -114,6 +154,9 @@ public class RandomObservable extends Observable&lt;Integer&gt; {
 }
 						</code>
 					</pre>
+					<aside class="notes">
+						Demonstrate code
+					</aside>
 				</section>
 				<section>
 					<h1>Usage</h1>
@@ -162,7 +205,18 @@ Observable&lt;String&gt; obsStrings = Observable.from(strings);
 						</code>
 					</pre>
 					<p>
-						An observer is lazily initalized and will not actually do any work until it has at least one subscriber
+						Two types of observables
+						<ul>
+							<li>Hot observer - Eagerly evaluated and will produce events even if it does not have subscribers
+							<ul>
+								<li>RandomObservable</li>
+							</ul></li>
+							<li>Cold observer - Will not actually produce events until it has subscribers
+									<ul>
+										<li><pre><code>Observable.interval</code></pre> is a good example</li>
+									</ul>
+							</li>
+						</ul>
 					</p>
 					</section>
 					<section>
@@ -186,6 +240,9 @@ Observable&lt;String&gt; obsStrings = Observable.from(strings);
 						</pre>
 						Produces a counter (starting at 0) every 500 milliseconds.
 						</p>
+						<aside class="notes">
+							Demonstrate
+						</aside>
 					</section>
 				<section>
 					<h1>Subscriber <-> Iterator</h1>
