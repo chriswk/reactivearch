@@ -201,11 +201,11 @@ Observable&lt;String&gt; obsStrings = Observable.from(strings);
 						<ul>
 							<li>Hot observer - Eagerly evaluated and will produce events even if it does not have subscribers
 							<ul>
-								<li>RandomObservable</li>
+								<li><pre><code class="java">RandomObservable</code></pre></li>
 							</ul></li>
 							<li>Cold observer - Will not actually produce events until it has subscribers
 									<ul>
-										<li><pre><code>Observable.interval</code></pre> is a good example</li>
+										<li><pre><code class="java">Observable.interval</code></pre> is a good example</li>
 									</ul>
 							</li>
 						</ul>
